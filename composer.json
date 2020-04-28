@@ -1,5 +1,5 @@
 {
-    "name": "testmonitor/activecampaign",
+    "name": "ashtokalo/activecampaign",
     "description": "ActiveCampaign API connector for APIv3",
     "keywords": ["activecampaign", "active", "campaign", "api"],
     "authors": [
