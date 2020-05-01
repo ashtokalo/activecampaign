@@ -27,17 +27,12 @@ class Contact extends Resource
     public $email;
 
     /**
+     * @var string
+     */
+    public $phone;
+
+    /**
      * @var int
      */
     public $orgid;
-
-    public function subscribe($list)
-    {
-        $this->activeCampaign->updateListStatus($list, $this->id, true);
-    }
-
-    public function unsubscribe($list)
-    {
-        $this->activeCampaign->updateListStatus($list, $this->id, false);
-    }
 }

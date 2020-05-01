@@ -25,7 +25,7 @@ trait ManagesTags
      *
      * @param string $name
      *
-     * @return array
+     * @return Tag
      */
     public function findTag($name)
     {
