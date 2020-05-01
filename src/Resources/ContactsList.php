@@ -88,4 +88,24 @@ class ContactsList extends Resource
     {
         return $this->activeCampaign->contactsByList($this->id);
     }
+
+    /**
+     * Adds contact to list.
+     *
+     * @param Contact|email|id $contact to remove
+     */
+    public function addContact($contact)
+    {
+        $this->activeCampaign->updateListStatus($this, $contact, true);
+    }
+
+    /**
+     * Removes contact from list.
+     *
+     * @param Contact|email|id $contact to remove
+     */
+    public function removeContact($contact)
+    {
+        $this->activeCampaign->updateListStatus($this, $contact, false);
+    }
 }

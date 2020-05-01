@@ -99,18 +99,39 @@ trait ManagesLists
     /**
      * Subscribe a contact to a list or unsubscribe a contact from a list.
      *
-     * @param int $list ID of list to remove contact from
-     * @param int $contact ID of contact to remove from list
+     * @param ContactsList|string|int $list List, name of list or ID of the list
+     * @param Contact|string|int $contact Contact, email or ID of the contact
      * @param bool $subscribe TRUE to subscribe, FALSE otherwise
      */
     public function updateListStatus($list, $contact, $subscribe)
     {
-        $this->post('contactLists', ['json' => [
-            'contactList' => [
-                'list' => $list,
-                'contact' => $contact,
-                'status' => $subscribe ? 1 : 2,
-            ], ]]);
+        if (is_numeric($list))
+        {
+            $list = $this->getList($list);
+        }
+        else if (is_string($list))
+        {
+            $list = $this->findList($list);
+        }
+
+        if (is_numeric($contact))
+        {
+            $contact = $this->getContact($contact);
+        }
+        else if (is_string($contact))
+        {
+            $contact = $this->findContact($contact);
+        }
+
+        if ($list instanceof ContactsList && $contact instanceof Contact)
+        {
+            $this->post('contactLists', ['json' => [
+                'contactList' => [
+                    'list' => $list->id,
+                    'contact' => $contact->id,
+                    'status' => $subscribe ? 1 : 2,
+                ], ]]);
+        }
     }
 
     /**
