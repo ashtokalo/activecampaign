@@ -10,6 +10,8 @@ use TestMonitor\ActiveCampaign\Resources\ContactAutomation;
 
 trait ManagesContacts
 {
+    use Action;
+
     /**
      * Get all contacts.
      *
@@ -43,19 +45,37 @@ trait ManagesContacts
     }
 
     /**
+     * Returns contact by ID.
+     *
+     * @param $id
+     *
+     * @return Contact|null
+     */
+    public function getContact($id)
+    {
+        $contacts = $this->transformCollection(
+            $this->get('contacts/' . $id),
+            Contact::class,
+            'contactAutomations'
+        );
+
+        return array_shift($contacts);
+    }
+
+    /**
      * Create new contact.
      *
      * @param string $email
      * @param string $firstName
      * @param string $lastName
-     * @param int|null $orgid
+     * @param int|null $phone
      *
      * @return Contact|null
      */
-    public function createContact($email, $firstName, $lastName, $orgid = null)
+    public function createContact($email, $firstName, $lastName, $phone = null)
     {
         $contacts = $this->transformCollection(
-            $this->post('contacts', ['json' => ['contact' => compact('email', 'firstName', 'lastName', 'orgid')]]),
+            $this->post('contacts', ['json' => ['contact' => compact('email', 'firstName', 'lastName', 'phone')]]),
             Contact::class
         );
 
@@ -68,11 +88,11 @@ trait ManagesContacts
      * @param string $email
      * @param string $firstName
      * @param string $lastName
-     * @param int|null $orgid
+     * @param int|null $phone
      *
      * @return Contact
      */
-    public function findOrCreateContact($email, $firstName, $lastName, $orgid = null)
+    public function findOrCreateContact($email, $firstName, $lastName, $phone = null)
     {
         $contact = $this->findContact($email);
 
@@ -80,7 +100,40 @@ trait ManagesContacts
             return $contact;
         }
 
-        return $this->createContact($email, $firstName, $lastName, $orgid);
+        return $this->createContact($email, $firstName, $lastName, $phone);
+    }
+
+    /**
+     * Updates a contact.
+     *
+     * Values to update could be `email`, `firstName`, `lastName` and `phone`.
+     *
+     * @param Contact|int|string $contact
+     * @param array              $values list of contact parameters to update
+     *
+     * @return Contact|null
+     */
+    public function updateContact($contact, array $values = [])
+    {
+        if (is_numeric($contact))
+        {
+            $contact = $this->getContact($contact);
+        }
+        else if (is_string($contact))
+        {
+            $contact = $this->findContact($contact);
+        }
+
+        if ($contact instanceof Contact)
+        {
+            $contacts = $this->transformCollection(
+                $this->put('contacts/' . $contact->id, ['json' => ['contact' => $values]]),
+                Contact::class);
+
+            return array_shift($contacts);
+        }
+
+        return null;
     }
 
     /**

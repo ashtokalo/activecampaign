@@ -27,6 +27,11 @@ class Contact extends Resource
     public $email;
 
     /**
+     * @var string
+     */
+    public $phone;
+
+    /**
      * @var int
      */
     public $orgid;

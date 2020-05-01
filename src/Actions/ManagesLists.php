@@ -32,15 +32,12 @@ trait ManagesLists
      */
     public function getList($id)
     {
-        try {
-            $lists = $this->get('lists/'.$id);
+        $lists = $this->transformCollection(
+            $this->get('lists/' . $id),
+            ContactsList::class
+        );
 
-            if (isset($lists['list']) && count($lists['list'])) {
-                return new ContactsList($lists['list']);
-            }
-        } catch (\TestMonitor\ActiveCampaign\Exceptions\NotFoundException $e) {
-            // return null if list not foun
-        }
+        return array_shift($lists);
     }
 
     /**
