@@ -2,15 +2,15 @@
 
 namespace TestMonitor\ActiveCampaign\Actions;
 
-use TestMonitor\ActiveCampaign\Resources\Tag;
-use TestMonitor\ActiveCampaign\Resources\Contact;
 use TestMonitor\ActiveCampaign\Resources\Automation;
-use TestMonitor\ActiveCampaign\Resources\ContactTag;
+use TestMonitor\ActiveCampaign\Resources\Contact;
 use TestMonitor\ActiveCampaign\Resources\ContactAutomation;
+use TestMonitor\ActiveCampaign\Resources\ContactTag;
+use TestMonitor\ActiveCampaign\Resources\Tag;
 
 trait ManagesContacts
 {
-    use Action;
+    use ImplementsActions;
 
     /**
      * Get all contacts.
