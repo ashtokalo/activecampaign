@@ -4,12 +4,15 @@ namespace TestMonitor\ActiveCampaign;
 
 use GuzzleHttp\Client as HttpClient;
 use TestMonitor\ActiveCampaign\Actions\ManagesAutomations;
+use TestMonitor\ActiveCampaign\Actions\ManagesConnections;
 use TestMonitor\ActiveCampaign\Actions\ManagesContactAutomations;
 use TestMonitor\ActiveCampaign\Actions\ManagesContacts;
 use TestMonitor\ActiveCampaign\Actions\ManagesContactTags;
+use TestMonitor\ActiveCampaign\Actions\ManagesCustomers;
 use TestMonitor\ActiveCampaign\Actions\ManagesCustomFields;
 use TestMonitor\ActiveCampaign\Actions\ManagesEvents;
 use TestMonitor\ActiveCampaign\Actions\ManagesLists;
+use TestMonitor\ActiveCampaign\Actions\ManagesOrders;
 use TestMonitor\ActiveCampaign\Actions\ManagesOrganizations;
 use TestMonitor\ActiveCampaign\Actions\ManagesTags;
 
@@ -24,7 +27,10 @@ class ActiveCampaign
         ManagesCustomFields,
         ManagesOrganizations,
         ManagesEvents,
-        ManagesLists;
+        ManagesLists,
+        ManagesConnections,
+        ManagesCustomers,
+        ManagesOrders;
 
     /**
      * The ActiveCampaign base url.
