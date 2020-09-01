@@ -61,10 +61,11 @@ trait ManagesTags
      * Find or create a tag.
      *
      * @param string $name
+     * @param array $data additional data for creating a tag (tagType, description)
      *
      * @return Tag
      */
-    public function findOrCreateTag($name)
+    public function findOrCreateTag($name, $data = [])
     {
         $tag = $this->findTag($name);
 
@@ -72,6 +73,6 @@ trait ManagesTags
             return $tag;
         }
 
-        return $this->createTag(['tag' => $name]);
+        return $this->createTag(array_merge(['tag' => $name], $data));
     }
 }
