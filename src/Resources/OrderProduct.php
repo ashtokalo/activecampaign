@@ -5,7 +5,7 @@ namespace TestMonitor\ActiveCampaign\Resources;
 class OrderProduct extends Resource
 {
     /**
-     * The name of the product
+     * The name of the product.
      *
      * @var string
      */
@@ -40,28 +40,28 @@ class OrderProduct extends Resource
     public $category;
 
     /**
-     * The SKU for the product
+     * The SKU for the product.
      *
      * @var string
      */
     public $sku;
 
     /**
-     * The description of the product
+     * The description of the product.
      *
      * @var string
      */
     public $description;
 
     /**
-     * An Image URL that displays an image of the product
+     * An Image URL that displays an image of the product.
      *
      * @var string
      */
     public $imageUrl;
 
     /**
-     * A URL linking to the product in your store
+     * A URL linking to the product in your store.
      *
      * @var string
      */

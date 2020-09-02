@@ -32,7 +32,7 @@ trait ManagesCustomers
     public function getCustomer($id)
     {
         $customers = $this->transformCollection(
-            $this->get('ecomCustomers/' . $id),
+            $this->get('ecomCustomers/'.$id),
             Customer::class
         );
 
@@ -40,7 +40,7 @@ trait ManagesCustomers
     }
 
     /**
-     * Finds customer by email, id of the customer in the external service and connection id
+     * Finds customer by email, id of the customer in the external service and connection id.
      *
      * @param string $email        email
      * @param string $externalid   id of the customer in the external service
@@ -51,17 +51,23 @@ trait ManagesCustomers
     public function findCustomer($email = null, $externalid = null, $connectionid = null)
     {
         $query = [];
-        if ($email) $query['filters[email]'] = $email;
-        if ($externalid) $query['filters[externalid]'] = $externalid;
-        if ($connectionid) $query['filters[connectionid]'] = $connectionid;
+        if ($email) {
+            $query['filters[email]'] = $email;
+        }
+        if ($externalid) {
+            $query['filters[externalid]'] = $externalid;
+        }
+        if ($connectionid) {
+            $query['filters[connectionid]'] = $connectionid;
+        }
 
-        if ($query)
-        {
+        if ($query) {
             $customers = $this->transformCollection(
                 $this->get('ecomCustomers', ['query' => $query]),
                 Customer::class,
                 'ecomCustomers'
             );
+
             return array_shift($customers);
         }
 
@@ -115,15 +121,12 @@ trait ManagesCustomers
      */
     public function updateCustomer($customer, array $values = [])
     {
-        if (is_numeric($customer))
-        {
+        if (is_numeric($customer)) {
             $customer = $this->getCustomer($customer);
         }
 
-        if ($customer instanceof Customer)
-        {
-            if (empty($values))
-            {
+        if ($customer instanceof Customer) {
+            if (empty($values)) {
                 $values = [
                     'externalid'       => $customer->externalid,
                     'connectionid'     => $customer->connectionid,
@@ -133,7 +136,7 @@ trait ManagesCustomers
             }
 
             $customers = $this->transformCollection(
-                $this->put('ecomCustomers/' . $customer->id, ['json' => ['ecomCustomer' => $values]]),
+                $this->put('ecomCustomers/'.$customer->id, ['json' => ['ecomCustomer' => $values]]),
                 Customer::class);
 
             return array_shift($customers);

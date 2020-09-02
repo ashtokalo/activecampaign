@@ -54,7 +54,7 @@ trait ManagesContacts
     public function getContact($id)
     {
         $contacts = $this->transformCollection(
-            $this->get('contacts/' . $id),
+            $this->get('contacts/'.$id),
             Contact::class,
             'contactAutomations'
         );
@@ -115,19 +115,15 @@ trait ManagesContacts
      */
     public function updateContact($contact, array $values = [])
     {
-        if (is_numeric($contact))
-        {
+        if (is_numeric($contact)) {
             $contact = $this->getContact($contact);
-        }
-        else if (is_string($contact))
-        {
+        } elseif (is_string($contact)) {
             $contact = $this->findContact($contact);
         }
 
-        if ($contact instanceof Contact)
-        {
+        if ($contact instanceof Contact) {
             $contacts = $this->transformCollection(
-                $this->put('contacts/' . $contact->id, ['json' => ['contact' => $values]]),
+                $this->put('contacts/'.$contact->id, ['json' => ['contact' => $values]]),
                 Contact::class);
 
             return array_shift($contacts);

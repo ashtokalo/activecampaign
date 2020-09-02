@@ -18,7 +18,9 @@ trait ManagesOrders
     public function orders($filters = [])
     {
         $query = [];
-        foreach ($filters as $name => $value) $query['filter[' . $name . ']'] = $value;
+        foreach ($filters as $name => $value) {
+            $query['filter['.$name.']'] = $value;
+        }
 
         return $this->transformCollection(
             $this->get('ecomOrders', $query ? ['query' => $query] : []),
@@ -37,7 +39,7 @@ trait ManagesOrders
     public function getOrder($id)
     {
         $orders = $this->transformCollection(
-            $this->get('ecomOrders/' . $id),
+            $this->get('ecomOrders/'.$id),
             Order::class
         );
 
@@ -83,17 +85,17 @@ trait ManagesOrders
      */
     public function updateOrder($order, array $values = [])
     {
-        if (is_numeric($order))
-        {
+        if (is_numeric($order)) {
             $order = $this->getOrder($order);
         }
 
-        if ($order instanceof Order)
-        {
-            if (empty($values)) $values = $this->getOrderParams($order);
+        if ($order instanceof Order) {
+            if (empty($values)) {
+                $values = $this->getOrderParams($order);
+            }
 
             $orders = $this->transformCollection(
-                $this->put('ecomOrders/' . $order->id, ['json' => ['ecomOrder' => $values]]),
+                $this->put('ecomOrders/'.$order->id, ['json' => ['ecomOrder' => $values]]),
                 Order::class);
 
             return array_shift($orders);
@@ -112,43 +114,43 @@ trait ManagesOrders
     private function getOrderParams(Order $order)
     {
         $params = get_object_vars($order);
-        if (isset($params['id'])) unset($params['id']);
+        if (isset($params['id'])) {
+            unset($params['id']);
+        }
 
         $cleanParams = [];
-        foreach ($params as $name => $value)
-        {
+        foreach ($params as $name => $value) {
             // skip undefined values
-            if (is_null($value)) continue;
+            if (is_null($value)) {
+                continue;
+            }
 
             // convert dates from timestamp or text format to required ISO 8601
-            if (in_array($name, ['externalCreatedDate', 'externalUpdatedDate', 'abandonedDate']))
-            {
+            if (in_array($name, ['externalCreatedDate', 'externalUpdatedDate', 'abandonedDate'])) {
                 $value = date('c', is_numeric($value)
                     ? $value
                     : strtotime($value));
             }
             // convert OrderProduct objects into arrays
-            else if ($name === 'orderProducts')
-            {
-                foreach ($value as $orderProduct)
-                {
-                    if ($orderProduct instanceof OrderProduct)
-                    {
+            elseif ($name === 'orderProducts') {
+                foreach ($value as $orderProduct) {
+                    if ($orderProduct instanceof OrderProduct) {
                         $orderProduct = get_object_vars($orderProduct);
                     }
-                    if (!is_array($orderProduct)) continue;
+                    if (! is_array($orderProduct)) {
+                        continue;
+                    }
                 }
             }
             // convert OrderDiscount objects into arrays
-            else if ($name === 'orderDiscounts')
-            {
-                foreach ($value as $orderDiscount)
-                {
-                    if ($orderDiscount instanceof OrderDiscount)
-                    {
+            elseif ($name === 'orderDiscounts') {
+                foreach ($value as $orderDiscount) {
+                    if ($orderDiscount instanceof OrderDiscount) {
                         $orderDiscount = get_object_vars($orderDiscount);
                     }
-                    if (!is_array($orderDiscount)) continue;
+                    if (! is_array($orderDiscount)) {
+                        continue;
+                    }
                 }
             }
             $cleanParams[$name] = $value;
@@ -166,20 +168,17 @@ trait ManagesOrders
      */
     private function getOrderWithProducts(Order $order)
     {
-        if ($order)
-        {
-            if (empty($order->orderProducts))
-            {
+        if ($order) {
+            if (empty($order->orderProducts)) {
                 $order->orderProducts = $this->transformCollection(
-                    $this->get('ecomOrders/' . $order->id . '/orderProducts'),
+                    $this->get('ecomOrders/'.$order->id.'/orderProducts'),
                     OrderProduct::class,
                     'ecomOrderProducts');
             }
 
-            if (empty($order->orderDiscounts))
-            {
+            if (empty($order->orderDiscounts)) {
                 $order->orderDiscounts = $this->transformCollection(
-                    $this->get('ecomOrders/' . $order->id . '/orderDiscounts'),
+                    $this->get('ecomOrders/'.$order->id.'/orderDiscounts'),
                     OrderDiscount::class,
                     'ecomOrderDiscounts');
             }

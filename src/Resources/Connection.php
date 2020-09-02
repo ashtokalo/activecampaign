@@ -37,7 +37,7 @@ class Connection extends Resource
     public $linkUrl;
 
     /**
-     * The status of the connection (0 = error; 1 = connected)
+     * The status of the connection (0 = error; 1 = connected).
      *
      * Available only on update operation.
      *

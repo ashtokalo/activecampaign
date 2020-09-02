@@ -5,7 +5,7 @@ namespace TestMonitor\ActiveCampaign\Resources;
 class OrderDiscount extends Resource
 {
     /**
-     * The discount code or name of the discount
+     * The discount code or name of the discount.
      *
      * @var string
      */

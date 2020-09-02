@@ -32,7 +32,7 @@ trait ManagesConnections
     public function getConnection($id)
     {
         $connections = $this->transformCollection(
-            $this->get('connections/' . $id),
+            $this->get('connections/'.$id),
             Connection::class
         );
 
@@ -50,15 +50,19 @@ trait ManagesConnections
     public function findConnection($service = null, $externalid = null)
     {
         $query = [];
-        if ($service) $query['filters[service]'] = $service;
-        if ($externalid) $query['filters[externalid]'] = $externalid;
-        if ($query)
-        {
+        if ($service) {
+            $query['filters[service]'] = $service;
+        }
+        if ($externalid) {
+            $query['filters[externalid]'] = $externalid;
+        }
+        if ($query) {
             $connections = $this->transformCollection(
                 $this->get('connections', ['query' => $query]),
                 Connection::class,
                 'connections'
             );
+
             return array_shift($connections);
         }
 
@@ -115,15 +119,12 @@ trait ManagesConnections
      */
     public function updateConnection($connection, array $values = [])
     {
-        if (is_numeric($connection))
-        {
+        if (is_numeric($connection)) {
             $connection = $this->getConnection($connection);
         }
 
-        if ($connection instanceof Connection)
-        {
-            if (empty($values))
-            {
+        if ($connection instanceof Connection) {
+            if (empty($values)) {
                 $values = [
                     'service'    => $connection->service,
                     'externalid' => $connection->externalid,
@@ -136,7 +137,7 @@ trait ManagesConnections
             }
 
             $connections = $this->transformCollection(
-                $this->put('connections/' . $connection->id, ['json' => ['connection' => $values]]),
+                $this->put('connections/'.$connection->id, ['json' => ['connection' => $values]]),
                 Connection::class);
 
             return array_shift($connections);

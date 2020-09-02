@@ -52,7 +52,7 @@ class Order extends Resource
     public $email;
 
     /**
-     * Combination of line items and products in an external e-commerce service
+     * Combination of line items and products in an external e-commerce service.
      *
      * @var OrderProduct[]
      */
@@ -67,21 +67,21 @@ class Order extends Resource
     public $totalPrice;
 
     /**
-     * The total shipping amount in cents for the order
+     * The total shipping amount in cents for the order.
      *
      * @var int
      */
     public $shippingAmount;
 
     /**
-     * The total tax amount for the order in cents
+     * The total tax amount for the order in cents.
      *
      * @var int
      */
     public $taxAmount;
 
     /**
-     * The total discount amount for the order in cents
+     * The total discount amount for the order in cents.
      *
      * @var int
      */
@@ -152,10 +152,14 @@ class Order extends Resource
 
     public function __get($name)
     {
-        if ($name === 'customer') return $this->activeCampaign->getCustomer($this->customerid);
-        if ($name === 'connection') return $this->activeCampaign->getConnection($this->connectionid);
+        if ($name === 'customer') {
+            return $this->activeCampaign->getCustomer($this->customerid);
+        }
+        if ($name === 'connection') {
+            return $this->activeCampaign->getConnection($this->connectionid);
+        }
 
-        throw new \RuntimeException('Getting unknown property: ' . get_class($this) . '::' . $name);
+        throw new \RuntimeException('Getting unknown property: '.get_class($this).'::'.$name);
     }
 
     /**
@@ -178,7 +182,9 @@ class Order extends Resource
             'externalid' => $externalid,
         ], $this->activeCampaign);
 
-        if (empty($this->orderProducts)) $this->orderProducts = [];
+        if (empty($this->orderProducts)) {
+            $this->orderProducts = [];
+        }
         $this->orderProducts[] = $orderProduct;
 
         return $orderProduct;

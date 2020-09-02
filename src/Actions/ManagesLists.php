@@ -33,7 +33,7 @@ trait ManagesLists
     public function getList($id)
     {
         $lists = $this->transformCollection(
-            $this->get('lists/' . $id),
+            $this->get('lists/'.$id),
             ContactsList::class
         );
 
@@ -105,26 +105,19 @@ trait ManagesLists
      */
     public function updateListStatus($list, $contact, $subscribe)
     {
-        if (is_numeric($list))
-        {
+        if (is_numeric($list)) {
             $list = $this->getList($list);
-        }
-        else if (is_string($list))
-        {
+        } elseif (is_string($list)) {
             $list = $this->findList($list);
         }
 
-        if (is_numeric($contact))
-        {
+        if (is_numeric($contact)) {
             $contact = $this->getContact($contact);
-        }
-        else if (is_string($contact))
-        {
+        } elseif (is_string($contact)) {
             $contact = $this->findContact($contact);
         }
 
-        if ($list instanceof ContactsList && $contact instanceof Contact)
-        {
+        if ($list instanceof ContactsList && $contact instanceof Contact) {
             $this->post('contactLists', ['json' => [
                 'contactList' => [
                     'list' => $list->id,
