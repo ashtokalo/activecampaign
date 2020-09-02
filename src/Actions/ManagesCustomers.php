@@ -96,7 +96,7 @@ trait ManagesCustomers
             Customer::class
         );
 
-        return array_shift($customers);
+        return $customers['ecomCustomer'] ?? null;
     }
 
     /**
