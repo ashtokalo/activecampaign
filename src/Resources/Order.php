@@ -9,6 +9,15 @@ namespace TestMonitor\ActiveCampaign\Resources;
 class Order extends Resource
 {
     /**
+     * Following constants could be used to filter orders by state.
+     */
+    const ORDER_STATE_PENDING   = 0;
+    const ORDER_STATE_COMPLETED = 1;
+    const ORDER_STATE_ABANDONED = 2;
+    const ORDER_STATE_RECOVERED = 3;
+    const ORDER_STATE_WAITING   = 4;
+
+    /**
      * @var int
      */
     public $id;

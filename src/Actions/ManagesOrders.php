@@ -19,7 +19,7 @@ trait ManagesOrders
     {
         $query = [];
         foreach ($filters as $name => $value) {
-            $query['filter['.$name.']'] = $value;
+            $query['filters['.$name.']'] = $value;
         }
 
         return $this->transformCollection(
@@ -114,6 +114,9 @@ trait ManagesOrders
     private function getOrderParams(Order $order)
     {
         $params = get_object_vars($order);
+        if (isset($params['attributes'])) {
+            unset($params['attributes']);
+        }
         if (isset($params['id'])) {
             unset($params['id']);
         }
@@ -133,9 +136,12 @@ trait ManagesOrders
             }
             // convert OrderProduct objects into arrays
             elseif ($name === 'orderProducts') {
-                foreach ($value as $orderProduct) {
+                foreach ($value as &$orderProduct) {
                     if ($orderProduct instanceof OrderProduct) {
                         $orderProduct = get_object_vars($orderProduct);
+                        if (isset($orderProduct['attributes'])) {
+                            unset($orderProduct['attributes']);
+                        }
                     }
                     if (! is_array($orderProduct)) {
                         continue;
@@ -144,9 +150,12 @@ trait ManagesOrders
             }
             // convert OrderDiscount objects into arrays
             elseif ($name === 'orderDiscounts') {
-                foreach ($value as $orderDiscount) {
+                foreach ($value as &$orderDiscount) {
                     if ($orderDiscount instanceof OrderDiscount) {
                         $orderDiscount = get_object_vars($orderDiscount);
+                        if (isset($orderDiscount['attributes'])) {
+                            unset($orderDiscount['attributes']);
+                        }
                     }
                     if (! is_array($orderDiscount)) {
                         continue;
